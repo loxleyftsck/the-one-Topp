@@ -1,0 +1,20 @@
+Message stats for scenario PRoPHET-30siu
+sim_time: 43200.1000
+created: 1461
+started: 70098
+relayed: 40798
+aborted: 29296
+dropped: 40769
+removed: 0
+delivered: 405
+delivery_prob: 0.2772
+response_prob: 0.0000
+overhead_ratio: 99.7358
+latency_avg: 3957.7052
+latency_med: 3026.4000
+hopcount_avg: 3.6198
+hopcount_med: 3
+buffertime_avg: 995.4459
+buffertime_med: 488.3000
+rtt_avg: NaN
+rtt_med: NaN
