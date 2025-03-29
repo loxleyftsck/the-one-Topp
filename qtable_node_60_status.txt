@@ -1,0 +1,2 @@
+[QTableReport] Node 60 Q-Table Size: 0
+[QTableReport] Q-Table is empty. No learning has occurred yet.

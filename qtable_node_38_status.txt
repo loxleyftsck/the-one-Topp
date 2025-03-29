@@ -1,0 +1,11 @@
+[QTableReport] Node 38 Q-Table Size: 9
+[QTableReport] Q-Table contains entries:
+State: Context[batt=0.93; buf=0.0; pop=1; tie=0.75; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=0.98; buf=0.0; pop=1; tie=0.33; den=0.0] | Action: DROP = 0.0
+State: Context[batt=0.97; buf=0.0; pop=1; tie=0.5; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=0.94; buf=0.0; pop=1; tie=0.71; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=0.96; buf=0.0; pop=1; tie=0.6; den=0.0] | Action: DROP = 0.0
+State: Context[batt=0.95; buf=0.0; pop=1; tie=0.67; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=0.9; buf=0.0; pop=1; tie=0.8; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=0.92; buf=0.0; pop=1; tie=0.78; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=0.99; buf=0.0; pop=1; tie=0.0; den=0.0] | Action: STORE = 0.0

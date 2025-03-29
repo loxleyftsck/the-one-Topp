@@ -1,0 +1,45 @@
+Scenario.name = RL
+
+# Group configuration
+Group.n = 1
+Group1.name = RLGroup
+Group1.router = RLRouter
+Group1.size = 50
+Group1.bufferSize = 5M
+Group1.waitTime = 0,30
+Group1.speed = 0.5,1.5
+Group1.msgTtl = 300
+Group1.nrofInterfaces = 1
+Group1.interface1.type = simple
+Group1.interface1.transmissionSpeed = 5
+Group1.interface1.transmissionRange = 100
+
+# RL Parameters
+RL.learningRate = 0.1
+RL.discountFactor = 0.9
+RL.epsilon = 0.2
+
+
+
+# TOPP Weights
+TOPP.weightBattery = 0.25
+TOPP.weightBuffer = 0.25
+TOPP.weightPopularity = 0.25
+TOPP.weightTieStrength = 0.25
+TOPP.weightDensity = 0.20
+
+# Copy Control
+CopyControl.maxL = 3
+
+# Q-Table Logging (used internally, not by The ONE Report system)
+QTableReport.enable = true
+QTableReport.interval = 1000
+
+# Report (hanya yang implement core.Report!)
+Report.nrofReports = 4
+Report.report1 = MessageStatsReport
+Report.report2 = FinalQTableDump
+Report.report3 = CopySummaryReport
+Report.report4 = CopyActionLogReport
+
+

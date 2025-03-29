@@ -1,0 +1,43 @@
+Scenario.endTime = 172800
+
+# Group configuration
+
+Group.nrofHosts = 100
+Group.n = 1
+Group1.name = RLGroup
+Group1.router = RLRouter
+Group1.size = 100
+Group1.bufferSize = 2M
+Group1.waitTime = 0,10
+Group1.msgTtl = 300
+Group1.nrofInterfaces = 1
+Group1.interface1.type = simple
+Group1.interface1.transmissionSpeed = 5
+Group1.interface1.transmissionRange = 250
+
+# RL Parameters
+RL.learningRate = 0.1
+RL.discountFactor = 0.9
+RL.epsilon = 0.4
+
+RL.logNodeUpdate = false
+
+
+# Copy Control
+CopyControl.maxL = 5
+
+MovementModel.type = MapBasedMovement
+MovementModel.mapFile = maps/testmap.wkt
+MovementModel.nrofMapFiles = 1
+MovementModel.minSpeed = 1.0
+MovementModel.maxSpeed = 2.0
+MovementModel.waitTime = 0,5
+
+
+# Report
+Report.nrofReports = 5
+Report.report1 = MessageStatsReport
+Report.report2 = FinalQTableDump
+Report.report3 = CopySummaryReport
+Report.report4 = CopyActionLogReport
+Report.report5 = EventLogReport

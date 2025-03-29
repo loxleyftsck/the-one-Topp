@@ -1,0 +1,97 @@
+src/
+│
+├── core/                         # Komponen bawaan The ONE
+│   └── ...                       # Jangan dimodifikasi kecuali darurat
+│
+├── routing/                      # Router utama
+│   └── RLRouter.java             # Routing adaptif berbasis RL
+│
+├── modules/                      # Komponen pembantu internal router
+│   └── CopyController.java       # Modul pengendali jumlah salinan pesan
+│
+├── reinforcement/               # Seluruh komponen Reinforcement Learning
+│   ├── QLearning.java            # Q-learning agent
+│   ├── ContextState.java         # Representasi konteks (state RL)
+│   ├── RewardFunction.java       # Fungsi reward untuk aksi RL
+│   ├── UtilityCalculator.java    # Perhitungan TOPP (Trust-Oriented Score)
+│   ├── NodeEnergyManager.java    # Manajemen baterai dan buffer node
+│   ├── EnergyEventListener.java  # Event listener: baterai habis
+│   └── NetworkEnvironment.java   # Perhitungan density dan sensing jaringan
+│
+├── reports/                     # Laporan evaluasi hasil simulasi
+│   ├── FinalQTableDump.java      # Menyimpan Q-table node ke file .csv
+│   ├── CopySummaryReport.java    # Rekap jumlah salinan pesan (L_copy)
+│   ├── MessageStatsReport.java   # Statistik pesan (dibuat, terkirim, drop)
+│   ├── RLRewardReport.java       # Ringkasan reward dari RL agent
+│   ├── TOPPLogReport.java        # Log nilai TOPP dari semua node
+│   └── EventLogReport.java       # Laporan event penting (node mati, dll.)
+│
+└── ui/                          # Antarmuka & launcher The ONE
+    └── DTNSimUI.java
+
+
+                    +----------------+
+                    |   RLRouter     |  ← routing/
+                    +----------------+
+                     | uses
+                     v
+        +---------------------------+
+        |     CopyController        |  ← modules/
+        +---------------------------+
+
+                     | interacts with
+                     v
++---------------------+       +---------------------+
+|   QLearning         |<----->|   ContextState       |  ← reinforcement/
++---------------------+       +---------------------+
+       | updates                     | represents
+       |                             |
+       v                             v
++------------------+         +------------------------+
+| RewardFunction   |         | UtilityCalculator      |
++------------------+         +------------------------+
+                                   |
+                                   v
+                         +-----------------------+
+                         | NetworkEnvironment    |
+                         +-----------------------+
+                                   ^
+                                   |
+                          +---------------------+
+                          | NodeEnergyManager   |
+                          +---------------------+
+
+                           (monitored by)
+                                   ^
+                                   |
+                        +------------------------+
+                        |  EnergyEventListener   |
+                        +------------------------+
+
+       ↓
+ +--------------------------+
+ |   MessageStatsReport     | ← reports/
+ |   CopySummaryReport      |
+ |   FinalQTableDump        |
+ +--------------------------+
+
+EventLogReport digunakan untuk mencatat dan merekonstruksi rangkaian peristiwa penting selama simulasi berjalan.
+Laporan ini mencakup informasi mengenai waktu penciptaan pesan, kontak antar node, inisiasi transfer pesan, keberhasilan atau kegagalan penyimpanan, hingga penghapusan pesan akibat TTL atau buffer penuh.
+
+Laporan ini penting untuk:
+
+Menelusuri alur pengambilan keputusan RL
+
+Memverifikasi apakah aksi routing (seperti FORWARD, DROP, STORE) dijalankan sesuai kondisi
+
+Mendeteksi bottleneck seperti tidak terjadinya transfer akibat tidak ada kontak
+
+File ini berguna sebagai dasar debugging serta analisis keberhasilan RL dalam beradaptasi terhadap dinamika jaringan.
+
+# events.txt - File untuk menjadwalkan pembuatan pesan secara eksplisit
+# Format: time <tab> source_node <tab> message_id <tab> destination_node <tab> size
+
+# Contoh event: Node 0 membuat pesan M1 ke Node 1 pada waktu 0 detik dengan ukuran 5000 bytes
+0	0	M1	1	5000
+0	1	M2	2	3000
+60	2	M3	3	5000
