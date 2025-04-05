@@ -30256,3 +30256,4 @@ Running simulation 'default_scenario'
 [Event] Node 33 kehabisan energi!
 [EnergyManager] Energy depleted to 0
 [Event] Node 98 kehabisan energi!
+60.0 29850: 497.50 1/s
