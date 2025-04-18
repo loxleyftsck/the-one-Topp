@@ -1,43 +1,131 @@
-Scenario.endTime = 172800
+Scenario.name = RL_Manhattan_6Groups
+Scenario.simulateConnections = true
+Scenario.endTime = 3600
+Scenario.updateInterval = 1.0
 
-# Group configuration
+Group.nrofHosts = 60
+Group.n = 6
 
-Group.nrofHosts = 100
-Group.n = 1
-Group1.name = RLGroup
+# Group 1 - Pedestrian dengan jalur peta
+Group1.name = PedestrianMBM
 Group1.router = RLRouter
-Group1.size = 100
-Group1.bufferSize = 2M
+Group1.size = 10
+Group1.bufferSize = 5M
+Group1.msgTtl = 1800
 Group1.waitTime = 0,10
-Group1.msgTtl = 300
 Group1.nrofInterfaces = 1
 Group1.interface1.type = simple
-Group1.interface1.transmissionSpeed = 5
 Group1.interface1.transmissionRange = 250
+Group1.interface1.transmissionSpeed = 5
+Group1.movementModel = MapBasedMovement
 
-# RL Parameters
+# Group 2 - Pedestrian acak
+Group2.name = PedestrianRWP
+Group2.router = RLRouter
+Group2.size = 10
+Group2.bufferSize = 5M
+Group2.msgTtl = 1800
+Group2.waitTime = 0,10
+Group2.nrofInterfaces = 1
+Group2.interface1.type = simple
+Group2.interface1.transmissionRange = 250
+Group2.interface1.transmissionSpeed = 5
+Group2.movementModel = RandomWaypoint
+
+# Group 3 - Car 1
+Group3.name = Car1
+Group3.router = RLRouter
+Group3.size = 10
+Group3.bufferSize = 5M
+Group3.msgTtl = 1800
+Group3.waitTime = 0,10
+Group3.nrofInterfaces = 1
+Group3.interface1.type = simple
+Group3.interface1.transmissionRange = 250
+Group3.interface1.transmissionSpeed = 5
+Group3.movementModel = MapRouteMovement
+Group3.routeFile = data/main_roads.wkt
+Group3.routeType = 1
+
+# Group 4 - Car 2
+Group4.name = Car2
+Group4.router = RLRouter
+Group4.size = 10
+Group4.bufferSize = 5M
+Group4.msgTtl = 1800
+Group4.waitTime = 0,10
+Group4.nrofInterfaces = 1
+Group4.interface1.type = simple
+Group4.interface1.transmissionRange = 250
+Group4.interface1.transmissionSpeed = 5
+Group4.movementModel = MapRouteMovement
+Group4.routeFile = data/Manhattan/roads.wkt
+Group4.routeType = 1
+
+# Group 5 - Bus 1
+Group5.name = Bus1
+Group5.router = RLRouter
+Group5.size = 10
+Group5.bufferSize = 5M
+Group5.msgTtl = 1800
+Group5.waitTime = 0,10
+Group5.nrofInterfaces = 1
+Group5.interface1.type = simple
+Group5.interface1.transmissionRange = 250
+Group5.interface1.transmissionSpeed = 5
+Group5.movementModel = MapRouteMovement
+Group5.routeFile = data/Manhattan/bus.wkt
+Group5.routeType = 1
+
+# Group 6 - Bus 2
+Group6.name = Bus2
+Group6.router = RLRouter
+Group6.size = 10
+Group6.bufferSize = 5M
+Group6.msgTtl = 1800
+Group6.waitTime = 0,10
+Group6.nrofInterfaces = 1
+Group6.interface1.type = simple
+Group6.interface1.transmissionRange = 250
+Group6.interface1.transmissionSpeed = 5
+Group6.movementModel = MapRouteMovement
+Group6.routeFile = data/demo_bus.wkt
+Group6.routeType = 1
+
+# Map config for pedestrian
+MapBasedMovement.nrofMapFiles = 1
+MapBasedMovement.mapFile1 = data/Manhattan/pedestrian_paths.wkt
+
+# Movement model default
+MovementModel.worldSize = 5000,5000
+MovementModel.speed = 1.0,2.0
+MovementModel.waitTime = 0,5
+MovementModel.walkLength = 20,100
+MovementModel.warmup = 100
+
+# Event pengiriman
+events.nrof = 10
+events.start = 100
+events.interval = 300
+events.src = random,0,59
+events.dst = random,0,59
+
+# RL params
 RL.learningRate = 0.1
 RL.discountFactor = 0.9
-RL.epsilon = 0.4
+RL.epsilon = 0.3
+RL.logNodeUpdate = true
 
-RL.logNodeUpdate = false
-
-
-# Copy Control
+# Copy control
 CopyControl.maxL = 5
 
-MovementModel.type = MapBasedMovement
-MovementModel.mapFile = maps/testmap.wkt
-MovementModel.nrofMapFiles = 1
-MovementModel.minSpeed = 1.0
-MovementModel.maxSpeed = 2.0
-MovementModel.waitTime = 0,5
-
-
-# Report
-Report.nrofReports = 5
+# Reports
+Report.reportDir = reports/RL_Manhattan/
+Report.nrofReports = 4
 Report.report1 = MessageStatsReport
 Report.report2 = FinalQTableDump
-Report.report3 = CopySummaryReport
-Report.report4 = CopyActionLogReport
-Report.report5 = EventLogReport
+Report.report3 = CopyActionLogReport
+Report.report4 = EventLogReport
+
+# GUI
+GUI.EventLogPanel.nrofEvents = 100

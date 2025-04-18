@@ -1,0 +1,47 @@
+Scenario.name = RL_Utilitas_NoMap
+Scenario.simulateConnections = true
+Scenario.endTime = 3600
+Scenario.updateInterval = 1.0
+
+Group.nrofHosts = 10
+Group.n = 1
+
+Group1.name = RLNodes
+Group1.router = RLRouter
+Group1.size = 10
+Group1.bufferSize = 5M
+Group1.msgTtl = 1800
+Group1.waitTime = 0,10
+Group1.nrofInterfaces = 1
+Group1.interface1.type = simple
+Group1.interface1.transmissionRange = 250
+Group1.interface1.transmissionSpeed = 5
+Group1.movementModel = RandomWalk
+Group1.speed = 1.0, 2.0
+Group1.walkLength = 20, 100
+
+
+MovementModel.warmup = 100
+
+Events.nrof = 10
+Events.start = 100
+Events.interval = 300
+Events.src = random,0,19
+Events.dst = random,0,19
+
+RL.learningRate = 0.1
+RL.discountFactor = 0.9
+RL.epsilon = 0.3
+RL.logNodeUpdate = true
+
+CopyControl.maxL = 5
+
+Report.reportDir = reports/RL_Utilitas_NoMap/
+Report.nrofReports = 4
+Report.report1 = MessageStatsReport
+Report.report2 = FinalQTableDump
+Report.report3 = CopyActionLogReport
+Report.report4 = EventLogReport
+
+GUI.EventLogPanel.nrofEvents = 100
+Scenario.mapFile = NONE

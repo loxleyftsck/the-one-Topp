@@ -1,4 +1,4 @@
-/* RLRouter.java - patched for debug Q-learning */
+/* RLRouter.java - Patched for battery-aware message transfer */
 
 package routing;
 
@@ -10,8 +10,6 @@ import report.CopySummaryReport;
 import report.QTableReport;
 import report.CopyActionLogReport;
 import modules.UtilityBasedCopyController;
-
-
 
 import java.util.*;
 
@@ -38,6 +36,13 @@ public class RLRouter extends ActiveRouter {
     private int qtableDumpInterval = 1000;
     private double lastTOPP = 0.0;
 
+    private double computeReceiveCost(Message msg) {
+        return 200.0 + msg.getSize() / 1000.0;
+    }
+
+    private double computeSendCost(Message msg) {
+        return 300.0 + msg.getSize() / 500.0;
+    }
 
     public static void setAllHosts(List<DTNHost> hosts) {
         allHosts = hosts;
@@ -90,11 +95,9 @@ public class RLRouter extends ActiveRouter {
 
     @Override
     public void update() {
-        // Log ini dikontrol dari settings
         if (settings.contains("RL.logNodeUpdate") && settings.getBoolean("RL.logNodeUpdate")) {
             System.out.println("[DEBUG] Node " + getHost().getAddress() + " is updating.");
         }
-
 
         super.update();
 
@@ -108,10 +111,7 @@ public class RLRouter extends ActiveRouter {
         updateContext();
         logQTableIfNeeded();
         checkDeliveredMessages();
-
-        energyManager.consume(100.0);
     }
-
 
     private void updateContext() {
 
@@ -203,6 +203,8 @@ public class RLRouter extends ActiveRouter {
 
                 copyControl.remove(msg.getId());
                 deleteMessage(msg.getId(), false);
+                agent.update(lastState, "FORWARD", new RewardFunction().computeBinaryReward(true), lastState);
+
             }
         }
     }
@@ -211,6 +213,7 @@ public class RLRouter extends ActiveRouter {
 
     @Override
     public Message messageTransferred(String id, DTNHost from) {
+        super.messageTransferred(id, from);
         int totalNodes = allHosts != null ? allHosts.size() : 1;
         int L_cur = copyControl.getCopies(id);
         int maxL = 5;
@@ -288,13 +291,26 @@ public class RLRouter extends ActiveRouter {
 
         // 🌱 RL Update
         if (!isDead && lastState != null) {
-            double reward = 1.0;
+            double delay = SimClock.getTime() - msg.getCreationTime();
+            double reward = new RewardFunction().computeGradedReward(true, delay);
+
             ContextState nextState = lastState;
             agent.update(lastState, "FORWARD", reward, nextState);
             agent.logQTable(getHost().getAddress());
+            if (energyManager != null && msg != null) {
+                double recvCost = computeReceiveCost(msg);
+                if (energyManager.canAct(recvCost)) {
+                    energyManager.consume(recvCost);
+                } else {
+                    System.out.println("[BATTERY] Node " + getHost().getAddress() + " kehabisan baterai saat menerima message " + msg.getId());
+                    isDead = true;
+                }
+            }
+
+
         }
 
-        return super.messageTransferred(id, from);
+        return msg;
     }
 
 
@@ -342,6 +358,7 @@ public class RLRouter extends ActiveRouter {
     public QLearning getQLearning() {
         return this.agent;
     }
+
 
 
 

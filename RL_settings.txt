@@ -1,10 +1,11 @@
 Scenario.name = RL
-
+Scenario.endTime = 3600
 # Group configuration
+Group.nrofHosts = 10
 Group.n = 1
 Group1.name = RLGroup
 Group1.router = RLRouter
-Group1.size = 50
+Group1.size = 10
 Group1.bufferSize = 5M
 Group1.waitTime = 0,30
 Group1.speed = 0.5,1.5

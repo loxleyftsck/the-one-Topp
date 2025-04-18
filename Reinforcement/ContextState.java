@@ -3,7 +3,7 @@ package Reinforcement;
 import java.util.Objects;
 
 /**
- * ContextState merepresentasikan state lingkungan untuk pembelajaran penguatan,
+ * ContextState merepresentasikan state lingkungan untuk Reinforcment learning
  * termasuk informasi baterai, buffer, popularitas, tie strength, dan density (opsional).
  */
 public class ContextState {

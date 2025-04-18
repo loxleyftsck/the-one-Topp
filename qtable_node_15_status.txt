@@ -1,2 +1,5 @@
-[QTableReport] Node 15 Q-Table Size: 0
-[QTableReport] Q-Table is empty. No learning has occurred yet.
+[QTableReport] Node 15 Q-Table Size: 1
+[QTableReport] Q-Table contains entries:
+State: Context[batt=1.0; buf=0.0; pop=1; tie=0.0; den=0.0] | Action: STORE = 0.0
+State: Context[batt=1.0; buf=0.0; pop=1; tie=0.0; den=0.0] | Action: FORWARD = 0.0
+State: Context[batt=1.0; buf=0.0; pop=1; tie=0.0; den=0.0] | Action: DROP = 0.0
